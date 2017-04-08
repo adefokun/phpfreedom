@@ -1,0 +1,20 @@
+<?php 
+/**
+Author: ADEFOKUN Tomiwa M.
+Email:  tomiwa.adefokun@gmail.com
+*/
+
+//create the page as a content block from pagesController
+$home = $this->buildBlock('pages');
+//set the page to render
+$home->setProperty('page','demo');
+//build the page
+$home->build();
+
+?>
+<div>
+	<?php 
+	//display the page
+	$home->displayContent();
+	?>
+</div>

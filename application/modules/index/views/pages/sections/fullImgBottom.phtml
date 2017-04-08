@@ -1,0 +1,65 @@
+
+	<?php 
+	if(isset($this->data)){
+?>
+	<div class="subContent fullSections"><br />
+<div class='pageSubTitle'><?php echo  $this->title;?></div>
+<?php 
+		$panes = '';
+		$i = 0;
+        foreach($this->data as $v){
+			
+			$pane_label = ($v['item_pane_label'] != '') ? $v['item_pane_label'] : $v['item_title'];
+			$pane_id = $v['content_id'];
+		    
+
+		    $content = $v['item_details'];
+			$paneContent = '';
+			
+			if($v['item_title'] != '') $paneContent .= '<div class=\'subContentTitle\'>'.$v['item_title'].'</div>';
+			$paneContent .= html_entity_decode($content);
+			$subAttch = unserialize(base64_decode($v['item_attch']));
+   
+		   if(count($subAttch) > 0){
+		       $downloadsAttch = '';
+			   $subAttchDisp = "<table align='left' style='margin: 10 0 10 0'><tr>";
+			        if(is_array($subAttch)):
+						foreach($subAttch as $v){
+						    $label = FController::mystripslashes($v['label']);
+				            
+							$type = strtolower($v['type']);
+							$imgTypes = array('gif','jpg','bmp','jpeg');
+							if(in_array($type,$imgTypes)){ 
+							    $subAttchDisp .= "<td style='padding-right: 10px;'><div style='border: 1px solid #cccccc; padding: 8px;'>";
+							    $subAttchDisp .= "<img src='".$this->getConf()->path['uploadUrl']."/content/".$v['filename']."' height='110px' style='border: 0px'/>";
+								if($label != '')$subAttchDisp .= "<div style='background-color: #dddddd;padding: 2px; font-size: 11px; color: #004d84;'>".$label."</div>";
+								$subAttchDisp .= "</div></td>";
+							}
+							else $downloadsAttch .= "<li><a href='".$this->getConf()->path['uploadUrl'].'/content/'.$v['filename']."' target='_blank'>".$label."</a>";
+
+					    }
+					endif;
+			    $subAttchDisp .= "</tr></table>";
+				$paneContent .= $downloadsAttch;
+				$paneContent .= $subAttchDisp;
+				
+				
+		   }
+			
+		   
+			
+			$panes .= "<div class='content' >".$paneContent."</div>";
+		
+		    $i++;
+		}
+		echo $panes;
+		
+		?>
+		<?php if($this->pager):
+	        echo $this->contentPager($this->pager);
+		endif;
+		?>
+	</div>
+		<?php 
+	}
+	?>

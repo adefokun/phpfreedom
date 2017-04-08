@@ -1,0 +1,26 @@
+<div>
+	<?php 
+	/**
+	Author: ADEFOKUN Tomiwa M.
+	Email:  tomiwa.adefokun@gmail.com
+	*/
+ 
+	$tabs = $this->createWidget('Panes_Tabs'); 
+	$tabs->setProperty('containerName','tabbedpanes');
+	$firstContent = <<< EOF
+This is an example of a PHP Freedom Framework widget. Its name is Panes_Tabs. 
+
+Building widgets shall be a major focus of this project, henceforth. Why? Because it is fun! Widgets are like the display blocks but they are not based on any controller or module. They are portable and can be used anywhere and in any project. They are simply some generic classes that help generate some UI objects. It is naturally conceived because I can be lazy sometimes and I don't want to rewrite any piece of code.  
+		
+We are going to use a lot of JavaScript in some widgets and we are only introducing the concept at the moment. Hope you are looking forward to what exactly we set to achieve with this concept. If you love what JavaScript and CSS do and you have some experience with Object Oriented PHP, you may want to be a part of this... and we will be happy to see your widgets or plug-ins or whatever they are called. The guidelines are available in the documentation.
+		
+Let us look at Tab 2 & 3, they are rendered from the URLs index/pages/display/?page=firstpage and demo/index/block respectively. But Tab 3 is re-fetched on every click while Tab 2 is not.
+
+EOF;
+	$tabs->add('Tab 1',nl2br($firstContent));
+	$tabs->add('Tab 2','index/pages/display/?page=firstpage',true);
+	$tabs->add('Tab 3','demo/index/blocks',true,true);
+	$tabs->build();
+	$tabs->display();
+	?>
+</div>

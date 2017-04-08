@@ -1,0 +1,22 @@
+<?php
+$currentAttachment = $this->attachments;
+if(count($currentAttachment) > 0){
+	?>
+	
+	<h4>Current <?php echo $this->pluralize('Attachment',count($currentAttachment))?></h4>
+	
+	<table class="excel" width="100%">
+	<tr><th>Operation</th><th>Current File</th><th>Label</th></tr>
+	<?php 
+		$atsr = '';
+		foreach($currentAttachment as $k => $v){
+			$atsr .= "<tr><td><select name=\"updateOptions_$k\"><option value=\"\">Select</option>".
+					$this->generateOptions(array('update'=>'Update','delete'=>'Delete'))
+					."</select></td>";
+			$atsr .= "<td ><input type=\"file\" name=\"update_attchment_$k\" /><br /><a href=\"".$this->getConf()->path['uploadUrl']."/content/".$v['filename']."\" style=\"color: red\" target=\"_blank\"/>Preview Attachment</a></td>";
+			$atsr .= "<td><input style=\"width: 200px;\" type=\"text\" value=\"".$this->mystripslashes($v['label'])."\" name=\"update_label_$k\"/></td>";
+		}
+		echo $atsr.'</table>';
+}
+else echo 'No files are currently attached to this page';
+?>

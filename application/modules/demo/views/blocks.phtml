@@ -1,0 +1,35 @@
+<div id="demo_blocks_page">
+	<?php 
+	/**
+	Author: ADEFOKUN Tomiwa M.
+	Email:  tomiwa.adefokun@gmail.com
+	*/
+
+	//create the page as a content block from pagesController
+	$intro = $this->buildBlock('pages');
+	//set the page to render
+	$intro->setProperty('page','DEMO_EMP');
+	//build the page
+	$intro->build();
+
+	?>
+	<div>
+		<?php 
+		//display the page
+		$intro->displayContent();
+		?>
+	</div>
+	<br />
+	<div>
+	<?php
+	//create another block for employess
+	$emp = $this->buildBlock(array('module'=>'demo','controller'=>'employees','action'=>'list'));
+	$emp->setProperty('template','employees_view');
+	$emp->setProperty('title','Our Staff');
+	$emp->setModelProperty('limit',2);
+	$emp->setProperty('pnum',$this->getParam(''.$emp->getModelProperty('name').'_pnum'));
+	$emp->build();
+	$emp->displayContent();
+	?>
+	</div>
+</div>

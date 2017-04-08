@@ -1,0 +1,35 @@
+div#nav-main {
+    font-family: verdana;
+}
+div#nav-main img{
+   display: none;
+}
+div#nav-main a{
+	display: block;
+	border: 1px solid lightblue;
+	width: 96%;
+	padding: 2px;
+	text-decoration: none;
+	margin-bottom: 1px;
+	color: #444444;
+	font-size: 11px;
+	background: #eeeeee;
+}
+div#nav-main a:hover{
+    background-color: #cccccc;
+	color: #eeeeee;
+}
+div#nav-main ul{
+    margin: 0px;
+	-moz-padding-start: 0px;
+}
+div#nav-main li{
+   margin: 0px;
+   padding: 0px;
+   list-style: none;
+}
+div#nav-main li a.current{
+   color: #eeeeee;
+   background-color: #cccccc;
+}
+

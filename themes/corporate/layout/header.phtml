@@ -1,0 +1,45 @@
+<img src="<?php echo $baseUrl;?>/themes/<?php echo $theme;?>/images/banner.jpg"/>
+
+
+<?php 
+	$topNav = $master->createWidget('TopNavBar'); 
+	/*
+	$l = $topNav->createLink('PHPFreedom.org','http://www.phpfreedom.org');
+	$l->setAttribute('target','_blank');
+	
+	$topNav->addLink($l);
+	*/
+	
+	
+	//create a link. This will create an instance of Link
+	//$l1 = $topNav->createLink('Home',$baseUrl);
+	//$topNav->addLink($l1);
+	//repeat this step to create more links
+
+	/*or
+	$links = array(2) { 
+	[0]=>  array(3) { 
+		["href"]=>  string(38) "http://..." ["text"]=>  string(4) "Home" ["attributes"]=>  array(1) {
+															["target"]=>  string(0) "" 
+															} 
+		}
+	[1]=>  array(3) { 
+		["href"]=>  string(62) "http://..." ["text"]=>  string(4) "News" ["attributes"]=>  array(1) {
+															["target"]=>  string(0) "_blank" 
+															} 
+		} 
+	} 
+	pass an array to addLinks($links)
+	
+	The NavigationController class has a matthod getTopNav() that builds this array based on the links that are marked for top nav in the menu controller.
+	*/
+	$topNav->addLinks($menu->getTopNav());	
+	
+
+
+
+	
+	$topNav->build();
+	$topNav->display();	
+	
+?>

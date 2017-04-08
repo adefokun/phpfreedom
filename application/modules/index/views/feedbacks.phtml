@@ -1,0 +1,95 @@
+<?php 
+/**
+Author: ADEFOKUN Tomiwa M.
+Email: Tomiwa.adefokun@progenicscorp.com,tomiwa.adefokun@gmail.com,tomiwa.adefokun@gmail.com
+*/
+
+?>
+<div class='pageTitle'><?php echo  $this->title;?></div>
+<div>
+<a href="<?php echo  $this->setUrl(null,'list');?>">Show all</a> | 
+<a href="javascript: history.back(1);">Back</a>
+
+</div>
+
+
+<!-- Error display-->
+<?php $this->renderErrors() ?>
+
+
+<!-- List section-->
+<?php  if(isset($this->list)): ?>
+	<p>
+	     <?php  if($this->data): ?>
+ <form name="list" action="<?php echo $this->setUrl(null,'delete');?>" method="post">
+	   <table width="100%" class="excel" >
+				<thead>
+				<th width="50px">&nbsp;</th><th><b>Name</th><th><b>Message</th><th width="60px">&nbsp;</th>
+				</thead>
+				<?php  $i = (isset($this->pager)) ? $this->pager['offset'] + 1 : 1; foreach($this->data as $v): 
+				   
+                   $dto = $this->getDto($v);
+				?>
+				<tr <?php echo  $this->setAltBg($i);?> ><td><input type="checkbox" name="delete[]" value="<?php echo  $dto->getField($this->primaryKey);?>"/> <?php echo  $i;?></td>
+					<td nowrap ><?php echo  $dto->getField('fb_name')?></td>
+					<td valign='top'><?php echo  substr($dto->getField('fb_message'),0,200)?>...</td>
+					<td valign='top'><nobr><a href="#" onclick="if(confirm('The item will be removed completely!'))self.location = '<?php echo  $this->setUrl(array('eid'=>$dto->getField($this->primaryKey)),'delete');?>';">
+						<img  src="<?php echo $this->getBaseUrl();?>/freedom/images/delete.png" align='right' border=0 title="Delete" alt='Delete'/>
+					    </a> 
+					    <a href="<?php echo $this->setUrl(array('eid'=>$dto->getField($this->primaryKey)),'details');?>">
+					    	<img src="<?php echo $this->getBaseUrl();?>/freedom/images/edit.png" border=0 title="Details" alt='Details'/></a>&nbsp;&nbsp;&nbsp;</nobr>
+					    	
+					</td>
+				</tr>
+			<?php  $i++; endforeach ?>
+		</table>
+				<div align="right" class="tinyText"><input type="checkbox" value="0" onclick="doSelect('list','delete[]',this.checked)"> Select or unselect all items <input type="submit" value="Delete Selected"></div>
+		</form>
+		<?php if($this->pager):
+	        echo $this->contentPager($this->pager);
+		endif;
+		?>
+             <?php  else: ?>
+                No contents to display.
+             <?php  endif ?>
+	</p>
+
+<?php  endif ?>
+
+<?php  if(isset($this->details)): 
+   $dto = $this->getDto($this->data,$this->modelName);
+?>
+	<p>
+         <table class="excel excelOrdinary" width="100%">
+			<tr>
+				<th>Name</th><th><?php echo  $dto->getField('fb_name');?></th>
+			</tr>		
+			<tr>
+				<th>Phone</th><th><?php echo  $dto->getField('fb_phone');?></th>
+			</tr>		
+			<tr>
+				<th>Country</th><th><?php echo  $dto->getField('fb_country');?></th>
+			</tr>		
+			<tr>
+				<th>State</th><th><?php echo  $dto->getField('fb_state');?></th>
+			</tr>			
+			<tr>
+				<th>Contact Address</th><th><?php echo  $dto->getField('fb_contact');?></th>
+			</tr>
+			<tr>
+				<th>Email</th><th style="text-transform: lowercase"><?php echo  $dto->getField('fb_email');?></th>
+			</tr>			
+			<tr>
+				<th>Date</th><th style="text-transform: lowercase"><?php echo  $dto->getField('fb_date');?></th>
+			</tr>	
+			<tr>
+				<th>Message Subject</th><th><?php echo  $dto->getField('fb_subject');?></th>
+			</tr>		
+			<tr>
+				<td colspan='2'>
+					<div  class="content" style="background-color: #ffffff; padding: 15px;"><?php echo  nl2br($dto->getField('fb_message'));?></div>
+				</td>
+			</tr>
+         </table>		 
+	</p>
+<?php  endif ?>

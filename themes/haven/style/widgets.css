@@ -1,0 +1,114 @@
+/**
+Author: ADEFOKUN Tomiwa M.
+Email: tomiwa.adefokun@progenicscorp.com
+
+
+Default CSS file for widgets
+
+*/
+
+
+/*Panes_Tabs*/
+
+div.Panes_Tabs_panes a.Panes_Tabs_tab{
+	padding: 3px 5px 3px 5px;
+	background-color: #eeeeee;
+	display: block;
+	margin: 0px 3px;
+	border: 1px solid #aaaaaa;
+	color: #666666;
+		 text-decoration: none;
+	text-transform: capitalize;
+		 border-bottom: 0px;
+	float: left;
+}
+
+div.Panes_Tabs_panes div.Panes_Tabs_tabContainer{
+	height: 10px;
+}
+
+div.Panes_Tabs_panes a.Panes_Tabs_tab:hover{
+	color: #ffffff;
+	background-color: #aaaaaa;
+}
+div.Panes_Tabs_panes  a.Panes_Tabs_currentTab{
+	color: #ffffff;
+	background-color: #aaaaaa;
+}
+div.Panes_Tabs_panes div{
+	clear: both;
+}
+div.Panes_Tabs_panes div.Panes_Tabs_paneContent{
+	display: none;
+	border: 1px solid #aaaaaa;
+	padding: 10px;
+}
+div.Panes_Tabs_panes div.Panes_Tabs_currentPane{
+		 display: block;
+	background-color: #f5fafe;
+}
+
+
+/*Theme Selector */
+
+.ThemeSelector{
+	float: right;
+}
+.ThemeSelector, .ThemeSelector select, .ThemeSelector option{
+   font-size: 11px;
+	color: #666666;
+}
+
+/*Top navbar*/
+.TopNavBar{
+    clear: both;
+	border-top: #ffffff 2px solid;
+	height: 32px;
+	margin:0px;
+}
+.TopNavBar a{
+	font-weight: bold;
+	font-size: 11px;
+	margin-left: 10px;
+	margin-right: 5px;
+	text-decoration: none;
+	color: #444444;
+}
+.TopNavBar a:hover{
+   color: red;
+   text-decoration: underline;
+}
+.TopNavBar .siteSearch{
+	margin-right: 10px;
+	line-height: 20px;
+	margin-top: 4px;
+	float: right;
+}
+.TopNavBar .siteSearch input{
+   vertical-align: top;
+   height: 20px;
+   width: 120px;
+   font-weight: bold;
+   font-size: 11px;
+   
+}
+.TopNavBar .siteSearch a{
+	margin: 0px;
+}
+
+/*Process Alert*/
+.ProcessAlert{
+   position: absolute;   
+   width: 730px;
+   margin-top: -19px;
+}
+.ProcessAlert div.holder{
+   background: #fff1a8;
+   padding: 2px;
+   width: 450px;
+}
+.processAlert span{
+    font-weight: bold;
+	font-size: 11px;  
+	display: block;
+}

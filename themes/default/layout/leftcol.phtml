@@ -1,0 +1,13 @@
+<?php  $menu->displayContent();
+
+$news = $master->buildBlock('groups');
+$news->setProperty('group','news');
+$news->setModelProperty('limit',3);
+$news->setProperty('title','Recent News Highlights');
+$news->setProperty('template','pages_sections_highlights');
+$news->build();
+$news->displayContent();
+?>
+<div style="padding: 2px; text-align: left;">
+<a href="http://www.phpfreedom.org" target="_blank"><img src="<?php echo $webUrl;?>/freedom/images/phpfreedom.jpg"/ border=0></a>
+</div>

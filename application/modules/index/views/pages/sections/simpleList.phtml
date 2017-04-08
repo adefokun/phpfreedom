@@ -1,0 +1,45 @@
+<?php 
+/**
+Author: ADEFOKUN Tomiwa M.
+Email: Tomiwa.adefokun@progenicscorp.com,tomiwa.adefokun@gmail.com,tomiwa.adefokun@gmail.com
+*/
+
+?>
+
+<!-- List section-->
+
+	     <?php  if($this->data): ?>
+	<div class="subContent">		 
+<div class='pageSubTitle'><?php echo  $this->title;?></div>
+<div>
+		<table width="100%" class="excel block list">
+
+				<?php  $i = (isset($this->pager)) ? $this->pager['offset'] + 1 : 1; foreach($this->data as $v): 
+				   
+                   $dto = $this->getDto($v);
+				?>
+				<tr>
+					<td>
+					<div class="title"><a href="javascript:loadMainById(<?php echo $dto->getField($this->primaryKey);?>)"><?php echo  $dto->getField('item_title')?></a></div>
+					<div class="text">
+					<?php echo  
+					(($item_desc = $dto->getField('item_desc')) != '') 
+					? $this->highlight($item_desc,300) 
+					: $this->highlight($dto->getField('item_details'),300);
+					?>
+					</div>
+					</td>
+					
+				</tr>
+			<?php  $i++; endforeach ?>
+		
+		</table>
+		<?php if($this->pager):
+	        echo $this->contentPager($this->pager);
+		endif;
+		?>
+	</div>
+	<?php else:?>
+	    No results found.
+	<?php endif;?>
+</div>

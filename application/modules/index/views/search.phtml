@@ -1,0 +1,12 @@
+<?php
+$search = $this->buildBlock('groups');
+$search->setProperty('group','GENERAL');
+$search->setModelProperty('limit',20);
+$search->setProperty('pnum',$this->pnum);
+$search->setProperty('search',$this->searchWord);
+$search->setProperty('title','Search results for "'. $this->searchWord. '"');
+$search->setProperty('template','pages_sections_simpleList');
+$search->build();
+$search->displayContent();
+
+?>

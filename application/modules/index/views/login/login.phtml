@@ -1,0 +1,24 @@
+<div>
+	<!-- Error display-->
+	<?php $this->renderErrors() ?>
+
+<br />
+<br />
+	<?php if(!$this->getLoggedUser()):?>
+	<table class="login" align="center">
+		<form method="post" action="<?php echo  $this->setUrl(null,'login');?>">
+			<tr><th colspan="2" class="title">User Login</th></tr>
+			<tr><th>Username</th><td><input name='login[username]' value="<?php echo  isset($this->credentials->username) ? stripslashes($this->credentials->username) : '';?>"  style="width: 200px;"/></td></tr>
+			<tr><th>Password</th><td><input name="login[password]" type="password" style="width: 200px;"/></td></tr>
+			<tr><td align="right" colspan="2">
+			<div align="right">
+			<input type="submit" value="Login"/> 
+			<br /><br /><span class="tinyText">[ <a href="#credentials" onclick="FElement.show('div_forgot_credentials');loadUrl('<?php echo $this->setUrl(null,'reminder')?>','div_forgot_credentials');">Forgot Credentials</a> ]</span>
+			</div>
+			<div id="div_forgot_credentials" align="left" style="display: none; border: 1px solid #cccccc; padding: 2px;background: #dddddd; margin: 5px;">Loading...
+			</div>
+			</td></tr>
+		</form>
+	</table>
+	<?php endif;?>
+</div>

@@ -1,0 +1,56 @@
+<div>
+<?php 
+/**
+Author: ADEFOKUN Tomiwa M.
+Email: Tomiwa.adefokun@progenicscorp.com,tomiwa.adefokun@gmail.com,tomiwa.adefokun@gmail.com
+*/
+$contact = $this->buildBlock('pages');
+$contact->setProperty('page','contact');
+$contact->build();
+
+$contact->displayContent();
+?>
+
+<!-- Error display-->
+<?php $this->renderErrors() ?>
+
+<?php
+$data = (isset($this->data)) ? $this->data : null;
+$dto = $this->getDto($data,'feedbacks');
+
+if(!isset($this->feedbackSent)):
+?>
+<h5>Send an instant message</h5>
+<form name='fb' method="post" >
+<table class='excelOrdinary excel'>
+	<tr>
+		<th>Name</th><td><input size='50' name="<?php echo  $dto->setField('fb_name');?>" value="<?php echo  $dto->getField('fb_name')?>"></td>
+	</tr>		
+	<tr>
+		<th>Phone</th><td><input size='50' name="<?php echo  $dto->setField('fb_phone');?>" value="<?php echo  $dto->getField('fb_phone')?>"></td>
+	</tr>		
+	<tr>
+		<th>Country</th><td><input size='50' name="<?php echo  $dto->setField('fb_country');?>" value="<?php echo  $dto->getField('fb_country')?>"></td>
+	</tr>		
+	<tr>
+		<th>State</th><td><input size='50' name="<?php echo  $dto->setField('fb_state');?>" value="<?php echo  $dto->getField('fb_state')?>"></td>
+	</tr>			
+	<tr>
+		<th>Contact Address</th><td><textarea style="width: 335px" name="<?php echo  $dto->setField('fb_contact');?>"><?php echo  $dto->getField('fb_contact')?></textarea></td>
+	</tr>
+	<tr>
+		<th>Email</th><td><input size='50' name="<?php echo  $dto->setField('fb_email');?>" value="<?php echo  $dto->getField('fb_email')?>"></td>
+	</tr>	
+	<tr>
+		<th>Message Subject</th><td><input size='50' name="<?php echo  $dto->setField('fb_subject');?>" value="<?php echo  $dto->getField('fb_subject')?>"></td>
+	</tr>		
+	<tr>
+		<td colspan='2'><textarea style="width: 455px; height: 180px;" name="<?php echo  $dto->setField('fb_message');?>"><?php echo  $dto->getField('fb_message')?></textarea></td>
+	</tr>
+	<tr>
+		<td colspan='2'><input size='50' type='button' value='Send' onclick="if(!checkFields('fb')) alert('All fields are required!'); else document.forms['fb'].submit();"></td>
+	</tr>	
+</table>
+</form>
+<?php endif;?>
+</div>

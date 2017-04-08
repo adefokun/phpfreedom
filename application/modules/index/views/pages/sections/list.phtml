@@ -1,0 +1,54 @@
+<?php 
+/**
+Author: ADEFOKUN Tomiwa M.
+Email: tomiwa.adefokun@gmail.com
+*/
+
+?>
+<div class='pageTitle'><?php echo  $this->title;?></div>
+
+
+<!-- Error display-->
+<?php $this->renderErrors(); ?>
+
+<!-- List section-->
+	<p>
+	     <?php  if($this->data): ?>
+		 
+	     <?php  
+			$searchParams = isset($this->searchParams) ? $this->searchParams : null;
+			$this->addSearchBlock($searchParams); 
+		 ?>
+		<table width="100%" class="excel block list">
+
+				<?php  $i = (isset($this->pager)) ? $this->pager['offset'] + 1 : 1; foreach($this->data as $v): 
+				   
+                   $dto = $this->getDto($v);
+				?>
+				<tr>
+					<td>
+					<div class="title"><a href="javascript:loadMainById(<?php echo $dto->getField($this->primaryKey);?>)"><?php echo  $dto->getField('item_title')?></a></div>
+					<div class="text">
+					<?php echo  
+					(($item_desc = $dto->getField('item_desc')) != '') 
+					? $this->highlight($item_desc,500) 
+					: $this->highlight($dto->getField('item_details'),500);
+					?>
+					<br /><br />
+					<b class="date"><?php echo  $this->formatDate($dto->getField('item_last_update'));?></b> 
+					<?php if($this->userIsAdmin()):?>
+					<div class="actions"><a href="<?php echo  $this->setUrl(array('eid'=>$dto->getField($this->primaryKey)),'delete','content','admin');?>">Delete</a> | <a href="<?php echo  $this->setUrl(array('eid'=>$dto->getField($this->primaryKey)),'edit','content','admin');?>">Edit</a> </div>
+					<?php endif;?>
+					</div>
+					</td>
+					
+				</tr>
+			<?php  $i++; endforeach ?>
+		
+		</table>
+		<?php if($this->pager):
+	        echo $this->contentPager($this->pager);
+		endif;
+		?>
+		 <?php  endif ?>
+	</p>

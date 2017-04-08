@@ -1,0 +1,56 @@
+<?php 
+/**
+Author: ADEFOKUN Tomiwa M.
+Email: Tomiwa.adefokun@progenicscorp.com
+*/
+
+?>
+<div class='pageTitle'><?php echo  $this->title;?></div>
+<div class="content">
+<?php   if(isset($this->mainContent)){
+   $mainAttch = unserialize(base64_decode($this->mainContent->item_attch));
+   
+   if(count($mainAttch) > 0){
+	   $mainAttchDisp = "<table align='right'  style='margin-left: 10px;'>";
+	        if(is_array($mainAttch)):
+				foreach($mainAttch as $v){
+					$label = FController::mystripslashes($v['label']);
+		            $mainAttchDisp .= "<tr><td style='padding: 0px; '>";
+					$type = strtolower($v['type']);
+					$imgTypes = array('gif','jpg','bmp','jpeg');
+					if(in_array($type,$imgTypes)){ 
+					    $mainAttchDisp .= "<img src='".$this->getConf()->path['uploadUrl']."/content/".$v['filename']."' width='170px' style='margin-top: 10px;'/>";
+						$mainAttchDisp ."</td>";
+						if($label != '')$mainAttchDisp .= "<tr><td style='background-color: #eeeeee;padding: 2px; font-size: 11px; color: #004d84; font-weight: bold;letter-spacing: 0.15em'>".$label."</td></tr>";
+						$mainAttchDisp .= "</tr>";
+					}
+					else $mainAttchDisp .= "<li><a href='".$this->getConf()->path['uploadUrl'].'/content/'.$v['filename']."' target='_blank'>".$label."</a>";
+
+			    }
+			endif;
+	    $mainAttchDisp .= "</table>";
+		echo $mainAttchDisp;
+   }
+   
+ echo html_entity_decode($this->mainContent->item_details);
+ 
+    $subsections = $this->buildBlock('subcontent');	
+    $subsections->setProperty('action','subsections');
+    $subsections->setProperty('content_id',$this->mainContent->content_id);
+    $subsections->setProperty('category',$this->mainContent->item_subcat);
+    $subsections->setModelProperty('limit',10);
+    $subsections->setProperty('tab',$this->getParam('tab'));
+    $subsections->setProperty('pnum',$this->getParam($subsections->getModelProperty('pagerName')));
+    $subsections->setProperty('search',$this->getParam($subsections->getModelProperty('searchName')));
+    $subsections->setProperty('title',$this->mainContent->item_subtitle);
+    $subsections->setProperty('template',$this->mainContent->item_subtemplate);
+	$subsections->build();
+	$subsections->displayContent();
+}
+?>
+<?php if($this->mainContent->show_last_update_yn):?>
+	<div class="tinyText">
+	Last updated on <?php echo $this->formatDate($this->mainContent->item_last_update);?>
+	</div>
+<?php endif;?>
+</div>

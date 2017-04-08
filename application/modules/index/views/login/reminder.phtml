@@ -1,0 +1,5 @@
+<b class="tinyText" style="color: red;"><?php echo $this->label; ?></b> 
+			<br />
+			<input  style="width: 242px;" id="input_fc_entry"/>
+			<br />
+			<input type="button" value="Continue" onclick="var entry = FElement.get('input_fc_entry').value;  if(<?php echo $this->jsValidator;?>(entry)) loadUrl('<?php echo $this->setUrl(array($this->entry => '\'+entry+\''),'reminder')?>','div_forgot_credentials'); else alert('<?php echo $this->errorAlert;?>');"/> <input type="button" onclick="FElement.hide('div_forgot_credentials');" value="Cancel"/>

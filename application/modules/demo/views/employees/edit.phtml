@@ -1,0 +1,54 @@
+<?php 
+/**
+Author: ADEFOKUN Tomiwa M.
+Email: tomiwa.adefokun@gmail.com
+*/
+
+?>
+
+<div class='pageTitle'><?php echo  $this->title;?></div>
+<!-- Error display-->
+<?php $this->renderErrors() ?>
+
+<?php  
+   $dto = $this->getDto($this->data,$this->modelName);
+?>	<p>
+
+		<form action="<?php echo  $this->setUrl(array('eid'=>$this->getParam('eid')),$this->postAction) ?>" method="post" name="<?php echo $this->modelName;?>" id="<?php echo $this->modelName;?>">
+			<table class="excel excelOrdinary">
+				<tr>
+					<th align='left'>First Name </th>
+					<td><input name="<?php echo  $dto->setField('employee_firstname');?>" style='width: 400px' value="<?php echo  $dto->getField('employee_firstname')?>"/>
+					</td>
+				</tr>
+								
+				<tr>
+					<th align='left'>Last Name </th>
+					<td><input name="<?php echo  $dto->setField('employee_lastname');?>" style='width: 400px' value="<?php echo  $dto->getField('employee_lastname')?>"/>
+					</td>
+				</tr>				
+			   
+			    <tr>
+					<th align='left'>Address </th>
+					<td><input name="<?php echo  $dto->setField('employee_address');?>" style='width: 400px' value="<?php echo  $dto->getField('employee_address')?>"/>
+					</td>
+				</tr>
+				
+				<tr>
+					<td  >
+						<input type="hidden" name="eid" value="<?php echo  $dto->getField($this->primaryKey);?>">
+						</td>
+						<td>
+						<input type="submit" name="<?php echo  $this->action ?>" value="<?php echo $this->actionLabel ?>">
+						<input type="button" value="Cancel" onclick="window.location = '<?php echo $this->setUrl(null,'list');?>'">
+						<?php if($this->action == 'edit'): ?>
+							<input type="button" value="AJAX Save" onclick="XHRPost.save('<?php echo $this->modelName;?>')" />
+						<?php endif;?>
+						<?php if($this->action == 'add'): ?>
+						<input type="button" value="AJAX Add" onclick="XHRPost.insert('<?php echo $this->modelName;?>')" />
+						<?php endif;?>
+					</td>
+				</tr>
+			</table>
+		</form>
+	</p>

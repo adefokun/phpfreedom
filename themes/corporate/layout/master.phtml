@@ -1,0 +1,103 @@
+<?php
+	$menu = $master->buildBlock('navigation');
+	//comment the next line to use default style for the navigation, other in built styles are default and progenics
+	//$menu->setProperty('style','freedom');
+	$menu->build();
+	$baseUrl = $master->getBaseUrl();
+	
+	$site = $master->getConf(true)->site;
+	$siteName = $site['title'];
+	$website = $site['website'];
+?>
+<html>
+
+    <head>
+	    <title><?php echo  ($content->siteTitle) ? $content->siteTitle : $master->siteTitle;?></title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="Rating" content="General" />
+		<meta name="Distribution" content="Global" />
+		<meta name="Revisit-After" content="3 Days" />
+		<meta name="Copyright" content="&copy; 2009 PHP Freedom Project" />
+        <meta name="generator" content="PHP Freedom Framework" />
+        <meta name="robots" content="noindex,nofollow" />        
+		<meta name="googlebot" content="noindex,nofollow" /> 
+		<meta name="keywords" content="php, best practices, samples, articles, news, community, knowledge, All Skill Levels, News, PHP5, PHP Freedom Framework, software, framework, Tomiwa Adefokun, Nigeria, Africa, Information Technology" />
+        <script>
+         var MENU_STYLE = '<?php echo  $menu->style?>'; 
+         var P2F_BASE_URL = '<?php echo  $baseUrl?>'; 
+		</script>
+		<link rel="stylesheet" href="<?php echo $baseUrl;?>/themes/<?php echo $theme;?>/style/main.css" type="text/css">
+		<link rel="stylesheet" href="<?php echo $baseUrl;?>/themes/<?php echo $theme;?>/style/widgets.css" type="text/css">
+       <link href="<?php echo $baseUrl;?>/themes/<?php echo $theme;?>/style/navigation/<?php echo  $menu->style;?>.css"  rel="stylesheet" type="text/css">
+	
+         <?php
+			Display::getStyleSheets();
+		 ?>
+		 <?php
+			Display::getJavaScripts(true);
+		 ?>
+	</head>
+	<?php flush();?>
+	<body>
+	    <table id="master" width="960px" height="100%" align="center" bgcolor="#ffffff" cellpadding="0px" cellspacing="0px">
+			<tr height="100px">
+			    <td colspan="2" id='header'>
+				<?php include_once(P2F_INSTALL_DIR . '/themes/'.$theme.'/layout/header.phtml');?>
+				</td>
+			</tr>
+			<?php  if($menu->style == 'progenics'):?>
+				<tr height="60px"><td colspan='2' valign="top">
+				<?php  $menu->displayContent();?>
+				</td></td>
+			<?php endif;?>
+
+			<tr>
+				<td  id="leftcol" valign="top"><div align="center">
+				<?php  if($menu->style != 'progenics') $menu->displayContent();?>
+				</div>
+				<?php 
+				$news = $master->buildBlock('groups');
+				$news->setProperty('group','news');
+				$news->setModelProperty('limit',3);
+				$news->setProperty('title','News Highlights');
+				$news->setProperty('template','pages_sections_highlights');
+				$news->build();
+				$news->displayContent();
+				?>
+				<div style="padding: 2px; text-align: left;">
+				<a href="http://www.phpfreedom.org" target="_blank"><img src="<?php echo $baseUrl;?>/freedom/images/phpfreedom.jpg"/ border=0></a>
+				</div>
+				</td>
+				<td valign="top" id="content" valign="top" width="720px">
+					<div id="breadcrumbs">
+						<?php $ts = $master->createWidget('ThemeSelector'); 
+							  $ts->setProperty('currentTheme',$master->getTheme());
+							  $ts->build();
+							  $ts->display();
+						?>
+						<span id="breadcrumbs-links"><?php echo  $menu->getBreadcrumbs();?></span>
+					</div>
+					
+					<?php     $alert = $master->createWidget('ProcessAlert'); 
+							  $alert->addContents($master->getAlert());
+							  $alert->build();
+							  $alert->display();
+					?>
+				   <div id="mainblock">
+						<?php $content->displayContent();?>
+					</div>
+					
+				</td>
+			</tr>
+			<tr height="50px" valign="top"><td colspan="2" id="footer">
+			<?php include_once(P2F_INSTALL_DIR . '/themes/'.$theme.'/layout/footer.phtml');?>
+</td></tr>
+		</table>
+	</body>
+		<?php
+			Display::getJavaScripts();
+		?>
+		<script src="<?php echo  $master->getBaseUrl();?>/freedom/html/javascript/main.js"></script>
+		<script src="<?php echo  $master->getBaseUrl();?>/freedom/html/javascript/widgets.js"></script>
+		<script src="<?php echo  $master->getBaseUrl();?>/freedom/html/javascript/datetimepicker.js"></script>
+</html>

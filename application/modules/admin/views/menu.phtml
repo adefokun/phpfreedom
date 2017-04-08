@@ -1,0 +1,135 @@
+<?php 
+/**
+Author: ADEFOKUN Tomiwa M.
+Email: Tomiwa.adefokun@progenicscorp.com,tomiwa.adefokun@gmail.com,tomiwa.adefokun@gmail.com
+*/
+
+?>
+<div class='pageTitle'><?php echo  $this->title;?></div>
+<div>
+<a href="<?php echo  $this->setUrl(null,'list');?>">Show all</a> | 
+<a href="<?php echo  $this->setUrl(null,'add');?>">Add new</a> | 
+<a href="javascript: history.back(1);">Back</a>
+
+</div>
+
+<!-- Error display-->
+<?php $this->renderErrors() ?>
+
+<!-- List section-->
+<?php  if(isset($this->list)): ?>
+	<p>
+	     <?php  if($this->data): ?>
+		 
+	     <?php  $this->addSearchBlock(); ?>
+		<form name="list" action="<?php echo $this->setUrl(null,'delete');?>" method="post">
+		<table width="100%" class="excel">
+				<thead>
+				<th width="50px">&nbsp;</th><th><b>Menu Title</th><th><b>URL</th><th><b>Order</th><th width="60px">&nbsp;</th>
+				</thead>
+				<?php  $i = (isset($this->pager)) ? $this->pager['offset'] + 1 : 1; foreach($this->data as $v): 
+				   
+                   $dto = $this->getDto($v);
+				?>
+				<tr <?php echo  $this->setAltBg($i);?> ><td><input type="checkbox" name="delete[]" value="<?php echo  $dto->getField($this->primaryKey);?>"/> <?php echo  $i;?></td>
+					<td><?php echo  $dto->getField('text')?></td>
+					<td valign='top'><?php echo  $dto->getField('href')?>&nbsp;</td>
+					<td valign='top'><?php echo  $dto->getField('menu_order')?>&nbsp;</td>
+					<td valign='top'><nobr><a href="#" onclick="if(confirm('The item will be removed completely!'))self.location = '<?php echo  $this->setUrl(array('eid'=>$dto->getField($this->primaryKey)),'delete');?>';">
+						<img  src="<?php echo $this->getBaseUrl();?>/freedom/images/delete.png" align='right' border=0 title="Delete" alt='Delete'/>
+					    </a> 
+					    <a href="<?php echo $this->setUrl(array('eid'=>$dto->getField($this->primaryKey)),'edit');?>">
+					    	<img src="<?php echo $this->getBaseUrl();?>/freedom/images/edit.png" border=0 title="Edit" alt='Edit'/></a>&nbsp;&nbsp;&nbsp;</nobr>
+					    	
+					</td>
+				</tr>
+			<?php  $i++; endforeach ?>
+		
+		</table>	
+		<div align="right" class="tinyText"><input type="checkbox" value="0" onclick="doSelect('list','delete[]',this.checked)"> Select or unselect all items <input type="submit" value="Delete Selected"></div>
+		</form>
+		<?php if($this->pager):
+	        echo $this->contentPager($this->pager);
+		endif;
+		?>
+		 <?php  else: ?>
+			No contents to display.
+		 <?php  endif ?>
+	</p>
+
+<?php  endif ?>
+
+<?php  if(isset($this->edit)): 
+   $dto = $this->getDto($this->data,$this->modelName);
+?>
+	<p>
+
+		<form action="<?php echo  $this->setUrl(array('eid'=>$this->getParam('eid')),$this->postAction) ?>" method="post" name="menu">
+			<table class="excel excelOrdinary">
+				<tr>
+					<th align='left'>Title </th>
+					<td><input name="<?php echo  $dto->setField('text');?>" style='width: 400px' value="<?php echo  $dto->getField('text')?>"/></td>
+				</tr>
+				<tr>
+					<th align='left' valign='top'>URL </th>
+					<td><input name="<?php echo  $dto->setField('href');?>" style='width: 400px;'value="<?php echo$dto->getField('href','')?>" />
+					    <br /><input name="<?php echo  $dto->setField('link_is_external');?>" type="radio" <?php echo  $this->boxIsChecked(0,$dto->getField('link_is_external'));?> value='0'/> Internal URL
+					    <br /><input name="<?php echo  $dto->setField('link_is_external');?>" type="radio" <?php echo  $this->boxIsChecked(1,$dto->getField('link_is_external'));?> value='1'/> External URL
+					</td>
+				</tr>				
+				<tr>
+					<th align='left'>Parent </th>
+					<td>
+					<select name="<?php echo  $dto->setField('parent_id');?>" > <option value='0'>Root</option>
+					<?php echo  $this->getDisplay()->generateOptions($this->menu,$dto->getField('parent_id'));?>
+					</select>
+
+					</td>
+				</tr>				
+				<tr>
+					<th align='left'>Target </th>
+					<td><input name="<?php echo  $dto->setField('link_target');?>" style='width: 400px;'value="<?php echo  $dto->getField('link_target');?>" /></td>
+				</tr>					
+				<tr>
+					<th align='left' valign="top">Permited Roles </th>
+					<td><select name="roles_selector" multiple style="width: 150px" onblur="document.getElementById('selected_roles').value = getMultipleSelection('menu','roles_selector')">
+					<option value=''>All</option>
+					<?php echo  $this->generateOptions($this->roles,$dto->getField('role_id'),true);?>
+					</select>
+					<input type="hidden" name="<?php echo  $dto->setField('role_id');?>" value="<?php echo  $dto->getField('role_id');?>" id="selected_roles"/>
+					</td>
+				</tr>				
+				<tr>
+					<th align='left'>Order </th>
+					<td><input name="<?php echo  $dto->setField('menu_order');?>" value="<?php echo  $dto->getField('menu_order');?>" /></td>
+				</tr>				
+				<tr>
+					<th align='left' nowrap >Available in top bar</th>
+					<td>
+					<select name="<?php echo  $dto->setField('top_nav_yn');?>">
+						<?php echo $this->generateOptions(array('No','Yes'), $dto->getField('top_nav_yn'))?>
+					</select>
+					</td>
+				</tr>
+				<tr>
+					<th align='left' nowrap >Load in AJAX Mode</th>
+					<td>
+						<select name="<?php echo  $dto->setField('use_ajax');?>">
+						    <?php echo $this->generateOptions(array('No','Yes'), $dto->getField('use_ajax'))?>
+						</select>
+					</td>
+				</tr>
+				
+				<tr>
+					<td  >
+						<input type="hidden" name="eid" value="<?php echo  $dto->getField($this->primaryKey);?>">
+						</td>
+						<td>
+						<input type="submit" name="<?php echo  $this->action ?>" value="<?php echo $this->actionLabel ?>">
+						<input type="button" value="Cancel" onclick="window.location = '<?php echo $this->setUrl(null,'list');?>'">
+					</td>
+				</tr>
+			</table>
+		</form>
+	</p>
+<?php  endif; ?>

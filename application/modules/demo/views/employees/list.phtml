@@ -1,0 +1,56 @@
+<?php 
+/**
+Author: ADEFOKUN Tomiwa M.
+Email: tomiwa.adefokun@gmail.com
+*/
+
+?>
+<div class='pageTitle'><?php echo  $this->title;?></div>
+<div>
+<a href="<?php echo  $this->setUrl(null,'list');?>">Show all</a> | 
+<a href="<?php echo  $this->setUrl(null,'add');?>">Add new</a> | 
+<a href="javascript: history.back(1);">Back</a>
+
+</div>
+
+<!-- Error display-->
+<?php $this->renderErrors() ?>
+
+<p>
+	 <?php  if($this->data): ?>
+	 
+	 <?php  $this->addSearchBlock(); ?>
+	<form name="list" action="<?php echo $this->setUrl(null,'delete');?>" method="post">
+	<table width="100%" class="excel">
+			<thead>
+			<th width="50px">&nbsp;</th><th><b>Last Name</th><th><b>First Name</th><th><b>Address</th><th width="60px">&nbsp;</th>
+			</thead>
+			<?php  $i = (isset($this->pager)) ? $this->pager['offset'] + 1 : 1; foreach($this->data as $v): 
+			   
+			   $dto = $this->getDto($v);
+			?>
+			<tr <?php echo  $this->setAltBg($i);?> ><td><input type="checkbox" name="delete[]" value="<?php echo  $dto->getField($this->primaryKey);?>"/> <?php echo  $i;?></td>
+				<td><?php echo  $dto->getField('employee_firstname')?></td>
+				<td valign='top'><?php echo  $dto->getField('employee_lastname')?>&nbsp;</td>
+				<td valign='top'><?php echo  $dto->getField('employee_address')?>&nbsp;</td>
+				<td valign='top'><nobr><a href="#" onclick="if(confirm('The item will be removed completely!'))self.location = '<?php echo  $this->setUrl(array('eid'=>$dto->getField($this->primaryKey)),'delete');?>';">
+					<img  src="<?php echo $this->getBaseUrl();?>/freedom/images/delete.png" align='right' border=0 title="Delete" alt='Delete'/>
+					</a> 
+					<a href="<?php echo $this->setUrl(array('eid'=>$dto->getField($this->primaryKey)),'edit');?>">
+						<img src="<?php echo $this->getBaseUrl();?>/freedom/images/edit.png" border=0 title="Edit" alt='Edit'/></a>&nbsp;&nbsp;&nbsp;</nobr>
+						
+				</td>
+			</tr>
+		<?php  $i++; endforeach ?>
+	
+	</table>	
+	<div align="right" class="tinyText"><input type="checkbox" value="0" onclick="doSelect('list','delete[]',this.checked)"> Select or unselect all items <input type="submit" value="Delete Selected"></div>
+	</form>
+	<?php if($this->pager):
+		echo $this->contentPager($this->pager);
+	endif;
+	?>
+	 <?php  else: ?>
+		No contents to display.
+	 <?php  endif ?>
+</p>

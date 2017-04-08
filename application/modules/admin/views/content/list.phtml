@@ -1,0 +1,247 @@
+<div>
+<?php 
+/**
+Author: ADEFOKUN Tomiwa M.
+Email: tomiwa.adefokun@progenicscorp.com,tomiwa.adefokun@gmail.com
+*/
+
+?>
+<div class='pageTitle'><?php echo  $this->title;?></div>
+<div>
+<a href="<?php echo  $this->setUrl(null,'list');?>">Show all</a> | 
+<a href="<?php echo  $this->setUrl(null,'add');?>">Create new page</a> | 
+<?php if($this->action == 'edit'):?>
+<a href="#sections">Go to sub-pages</a> | 
+<?php endif;?>
+<a href="javascript: history.back(1);">Back</a>
+
+</div>
+
+<!-- Error display-->
+<?php $this->renderErrors() ?>
+
+
+<!-- List section-->
+<?php  if(isset($this->list)): ?>
+    
+	<p>
+	<b>Content Group: </b><select onchange="if(this.value != '') window.location = '<?php echo $this->setUrl().'&group=';?>'+encodeURIComponent(this.value) ">
+	<option value="">Select</option>
+	<?php
+		echo $this->generateOptions($this->ctypes,$this->group);
+	?>
+	</select>
+	<br />
+	<?php  if($this->data): ?>
+	     <?php  $this->addSearchBlock(array('group'=>$this->group)); ?>
+	     <form name="list" action="<?php echo $this->setUrl(null,'delete');?>" method="post">
+	   <table width="100%" class="excel" >
+				<thead>
+				<th width="50px">&nbsp;</th><th><b>Title</th><th><b>Description</th><th nowrap ><b>Page Name</th><th width="60px">&nbsp;</th>
+				</thead>
+				<?php  $i = (isset($this->pager)) ? $this->pager['offset'] + 1 : 1;  foreach($this->data as $v): 
+                   $dto = $this->getDto($v);
+				?>
+				<tr <?php echo  $this->setAltBg($i);?> ><td><input type="checkbox" name="delete[]" value="<?php echo  $dto->getField($this->primaryKey);?>"/> <?php echo  $i;?></td>
+				<td><?php echo  $dto->getField('item_title');?></td>
+					<td valign='top'><?php echo  $dto->getField('item_desc');?>&nbsp;</td>
+					<td valign='top'><?php echo  $dto->getField('item_cat');?>&nbsp;</td>
+					<td valign='top'><nobr><a href="#" onclick="if(confirm('The item will be removed completely!'))self.location = '<?php echo  $this->setUrl(array('eid'=>$dto->getField($this->primaryKey)),'delete');?>';">
+						<img  src="<?php echo $this->getBaseUrl();?>/freedom/images/delete.png" align='right' border=0 title="Delete" alt='Delete'/>
+					    </a> 
+					    <a href="<?php echo $this->setUrl(array('eid'=>$dto->getField($this->primaryKey)),'edit');?>">
+					    	<img src="<?php echo $this->getBaseUrl();?>/freedom/images/edit.png" border=0 title="Edit" alt='Edit'/></a>&nbsp;&nbsp;&nbsp;</nobr>
+					    	
+					</td>
+				</tr>
+			<?php  $i++; endforeach ?>
+		</table>
+		<div align="right" class="tinyText"><input type="checkbox" value="0" onclick="doSelect('list','delete[]',this.checked)"> Select or unselect all items <input type="submit" value="Delete Selected"></div>
+		</form>
+		<?php if($this->pager):
+	        echo $this->contentPager($this->pager);
+		endif;
+		?>
+             <?php  else: ?>
+                No contents to display.
+             <?php  endif ?>
+	</p>
+
+<?php  endif ?>
+
+<?php  if(isset($this->edit)): 
+   $this->addJSLink(P2F_BASE_URL . '/freedom/html/tinyfck/tiny_mce.js');
+   
+   $dto = $this->getDto($this->data,$this->modelName);
+   $category = ($dto->getField('item_cat')) ? $dto->getField('item_cat') : $this->getProperty('contentPageName');
+   $group = ($this->getProperty('contentPageGroup')) ? $this->getProperty('contentPageGroup') : ($dto->getField('content_type_key','GENERAL'));
+   
+?>
+	<p>
+		<form action="<?php echo  $this->setUrl(array('eid'=>$this->getParam('eid'),'pagename'=>($category != false) ? $category : ''),$this->postAction) ?>" method="post" enctype="multipart/form-data" name="<?php echo $this->modelName?>" id="<?php echo $this->modelName?>">
+		<?php if($this->action == 'edit'):?>
+					<div align="right">
+					<input type="button" value="Save content data" onclick="tinyMCE.triggerSave();XHRPost.save('<?php echo $this->modelName?>','ContentController.loadAttachments');window.location='#'" />
+					</div>
+					<?php endif;?>
+			<table class="excel excelOrdinary" width="100%">
+				<tr>
+					<th align='left'>Title </th>
+					<td>
+					<input name="<?php echo  $dto->setField('item_title');?>" style='width: 400px' value="<?php echo  $dto->getField('item_title');?>"/></td>
+				</tr>				
+				<tr>
+					<th align='left'>Pane Label </th>
+					<td><input name="<?php echo  $dto->setField('item_pane_label');?>" style='width: 400px' value="<?php echo  $dto->getField('item_pane_label');?>"/></td>
+				</tr>	
+                 <tr>
+					<th align='left'>Content Type </th>
+					<td><select name="<?php echo  $dto->setField('content_type_key')?>"><?php echo  $this->generateOptions($this->ctypes,$group)?></select></td>
+				</tr>				
+				</tr>
+				
+			<tr>
+					<th align='left'>Category (Page Name)</th>
+					<td><input name="<?php echo $dto->setField('item_cat'); ?>" style='width: 400px;'value="<?php echo $category;  ?>"  <?php if($this->getProperty('contentPageGroup')) echo 'readonly'; ?> /></td>
+				</tr>
+								
+				<tr>
+					<th align='left' nowrap >Sub Category (Subsection Name)</th>
+					<td><input name="<?php echo  $dto->setField('item_subcat');?>" style='width: 400px;' value="<?php echo $dto->getField('item_subcat');?>" /></td>
+				</tr>	
+	
+                <?php if(($sub_cat = $dto->getField('item_subcat')) == null || $sub_cat != $dto->getField('item_cat')):?>				
+				<tr>
+					<th align='left' nowrap >Sub Category Order </th>
+					<td><input name="<?php echo  $dto->setField('item_order');?>" style='width: 400px;'value="<?php echo  $dto->getField('item_order');?>" /></td>
+				</tr>	
+                <?php endif;?>							
+				<tr>
+					<th align='left'>Subsections Title </th>
+					<td><input name="<?php echo  $dto->setField('item_subtitle');?>" style='width: 400px' value="<?php echo  $dto->getField('item_subtitle');?>"/></td>
+				</tr>				
+				<tr>
+					<th align='left'>Page Template </th>
+					<td>
+					<select name="<?php echo  $dto->setField('item_template');?>">
+						<?php echo  $this->generateOptions($this->pageTemplates, $dto->getField('item_template'))?>
+					    </select>
+					</tr>				
+				<tr>
+					<th align='left'>Subsections Template </th>
+					<td>
+					<select name="<?php echo  $dto->setField('item_subtemplate');?>">
+						<?php echo  $this->generateOptions($this->sectionTemplates, $dto->getField('item_subtemplate'))?>
+					    </select>					
+					</tr>
+				<tr>
+					<th align='left' valign="top">Permited Roles </th>
+					<td><select name="roles_selector" multiple style="width: 150px" onblur="document.getElementById('selected_roles').value = getMultipleSelection('<?php echo $this->modelName?>','roles_selector')">
+					<option value=''>All</option>
+					<?php echo  $this->generateOptions($this->roles,$dto->getField('role_id'),true);?>
+					</select>
+					<input type="hidden" name="<?php echo  $dto->setField('role_id');?>" value="<?php echo  $dto->getField('role_id');?>" id="selected_roles"/>
+					</td>
+				</tr>
+				<tr>
+					<th align='left' valign='top'>Summary </th>
+					<td><textarea name="<?php echo  $dto->setField('item_desc');?>" style='width: 400px; height: 60px;'><?php echo  $dto->getField('item_desc');?></textarea></td>
+				</tr>				
+				<tr height='400px'>
+					<td align='center' valign='top' colspan='2'><h2>FULL CONTENT DETAILS</h2>
+					<textarea id="freedom_wysiwyg" name="<?php echo $dto->setField('item_details');?>" style="height: 500px; width: 690;"><?php echo $dto->getField('item_details');?></textarea>
+					</td>
+				</tr>				
+				
+				<tr>
+					<th align='left'>Create Date </th>
+					<td><input readonly name="<?php echo  $dto->setField('item_dt');?>"  style='width: 400px;'value="<?php echo  $dto->getField('item_dt',date('Y-m-d H:i:s'));?>" /></td>
+				</tr>			
+				<tr>
+					<th align='left'>Expiry Date </th>
+					<td><input id="item_exp_date" readonly name="<?php echo  $dto->setField('item_exp_dt');?>" value="<?php echo  $dto->getField('item_exp_dt');?>" />
+						<a href="javascript:NewCal('item_exp_date','yyyymmdd',true)"><img src="<?php echo  $this->getBaseUrl();?>/freedom/images/cal.gif" width="16" height="16" border="0" alt="Pick a date"></a> [ <a href="#reset_exp_date" name="reset_exp_date" onclick="document.getElementById('item_exp_date').value='<?php echo  $dto->getField('item_exp_dt');?>'">Reset</a> ] [ <a href="#clear_exp_date" name="clear_exp_date" onclick="document.getElementById('item_exp_date').value='0000-00-00 00:00:00'">Clear</a> ]
+					</td>
+				</tr>	
+				
+                <?php if($this->action != 'add'):?>				
+				<tr>
+					<th align='left'>Last Update Date </th>
+					<td><input readonly style='width: 400px;'value="<?php echo  $dto->getField('item_last_update');?>" /></td>
+				</tr>	
+                <?php endif;?>	
+				<tr>
+					<th align='left'>Show last update info. </th>
+					<td>
+					<select name="<?php echo $dto->setField('show_last_update_yn');?>">
+					<?php
+					echo $this->generateOptions(array(1=>'YES',0=>'NO'),$dto->getField('show_last_update_yn',1));
+					?>
+					</select>
+					</td>
+				</tr>				
+			</table>
+			<hr size="1"/>
+					<div id="content_attachments_list" style="padding: 2px; color: red">
+					<?php  
+					if(isset($this->data) && $this->action != 'add'){
+						$currentAttachment = unserialize(base64_decode($dto->getField('item_attch')));
+						$attach = $this->buildBlock(array('module'=>'admin','controller'=>'content','action'=>'attachments'));
+						$attach->setProperty('attachments',$currentAttachment);
+						$attach->build();
+						$attach->displayContent();
+					}
+					?>
+					
+					</div>
+					<br />
+                    <div id="contentAttachment"> </div>
+					
+					
+				    <a href="javascript:addAttachment('attachment','contentAttachment')" >Add attachment</a> | 
+					<a href="javascript:void(0)" onclick="ContentController.allowedExtensions(selectedOption('<?php echo $this->modelName?>','<?php echo  $dto->setField('content_type_key')?>'))" >Allowed Extentions and Size</a>
+					<div id="content_attach_ext_div" class="tinyText" style="margin-top: 15px; line-height: 1.6em">
+					</div>
+
+					
+			<hr size="1"/>
+					<div>
+					<input type="hidden" name="eid" value="<?php echo  $dto->getField($this->primaryKey);?>">
+					<?php if($this->action == 'edit'):?>
+					
+					<input type="button" value="Save content data" onclick="tinyMCE.triggerSave();XHRPost.save('<?php echo $this->modelName?>','ContentController.loadAttachments');window.location='#'" />
+					<input type="submit" name="<?php echo  $this->action ?>" value="Save and upload attachments" />
+
+					<?php else:?>
+					<input type="submit" name="<?php echo  $this->action ?>" value="<?php echo  $this->actionLabel ?>">
+					<?php endif;?>
+					<input type="button" value="Cancel" onclick="window.location = '<?php echo $this->setUrl(null,'list');?>'">
+					</div>
+		</form>
+	</p>	
+	<?php
+
+	if($category){
+	$content_id = $dto->getField($this->primaryKey);
+	?>
+	<a name="sections"></a>
+	<fieldset>
+	<legend>OTHER SUB-PAGES OF <?php echo strtoupper($category);?> 
+	</legend>
+	<?php
+		$sections = $this->buildBlock(array('action'=>'sections','controller'=>'content','module'=>'admin'));
+		$sections->setProperty('category',$category);
+		$sections->setModelProperty('limit',10);
+		$sections->setProperty('pnum',$this->getParam($sections->getModelProperty('pagerName')));
+		$sections->setProperty('content_id',$content_id);
+		$sections->build();
+		$sections->displayContent();
+	?>
+	<br />
+	<a href="<?php echo  $this->setUrl(array('pagename'=>$category),'addsubpage');?>">Add a sub-page</a> 
+	</fieldset>
+	<?php
+	}
+	?>
+<?php  endif ?>
+</div>

@@ -1,0 +1,59 @@
+<?php 
+/**
+Author: ADEFOKUN Tomiwa M.
+Email: Tomiwa.adefokun@progenicscorp.com
+*/
+
+
+?>
+<div class='pageTitle'><?php echo  $this->title;?></div>
+<div class="content">
+<?php   if(isset($this->mainContent)){
+   $mainAttch = unserialize(base64_decode($this->mainContent->item_attch));
+   $mainAttchDownload = '';
+   if(count($mainAttch) > 0){
+	   $mainAttchDisp = "<table align='left'  style='margin-right: 10px;'>";
+	        if(is_array($mainAttch)):
+					foreach($mainAttch as $v){
+						$label = FController::mystripslashes($v['label']);
+						$type = strtolower($v['type']);
+						$imgTypes = array('gif','jpg','bmp','jpeg');
+						if(in_array($type,$imgTypes)){ 
+							$mainAttchDisp .= "<td style='padding-right: 10px;'><div style='border: 1px solid #cccccc; padding: 8px;'>";
+							$mainAttchDisp .= "<img src='".$this->getConf()->path['uploadUrl']."/content/".$v['filename']."' height='100px' style='border: 0px'/>";
+							if($label != '')$mainAttchDisp .= "<div style='background-color: #dddddd;padding: 2px; font-size: 11px; color: #004d84;'>".$label."</div>";
+							$mainAttchDisp .= "</div></td>";
+						}
+						else $mainAttchDownload .= "<li><a href='".$this->getConf()->path['uploadUrl'].'/content/'.$v['filename']."' target='_blank'>".$label."</a>";
+
+					}
+			endif;
+	    $mainAttchDisp .= "</table>";
+		echo $mainAttchDisp;
+	
+   }
+   
+ echo html_entity_decode($this->mainContent->item_details);
+ echo $mainAttchDownload;
+ 
+    $subsections = $this->buildBlock('subcontent');	
+    $subsections->setProperty('action','subsections');
+    $subsections->setProperty('content_id',$this->mainContent->content_id);
+    $subsections->setProperty('category',$this->mainContent->item_subcat);
+    $subsections->setModelProperty('limit',10);
+    $subsections->setProperty('tab',$this->getParam('tab'));
+    $subsections->setProperty('pnum',$this->getParam($subsections->getModelProperty('pagerName')));
+    $subsections->setProperty('search',$this->getParam($subsections->getModelProperty('searchName')));
+    $subsections->setProperty('title',$this->mainContent->item_subtitle);
+    $subsections->setProperty('template',$this->mainContent->item_subtemplate);
+	$subsections->build();
+	$subsections->displayContent();
+	
+}
+?>
+<?php if($this->mainContent->show_last_update_yn):?>
+	<div class="tinyText">
+	Last updated on <?php echo $this->formatDate($this->mainContent->item_last_update);?>
+	</div>
+<?php endif;?>
+</div>

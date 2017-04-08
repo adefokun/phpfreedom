@@ -1,0 +1,379 @@
+/* CSS Document for default layout.*/
+/**
+Author: ADEFOKUN Tomiwa M.
+Email: tomiwa.adefokun@progenicscorp.com
+*/
+body{
+   background: #dddddd url(../images/Background.jpg) repeat left top;
+}
+form{margin: 0px;}
+*{
+  font-family: Trebuchet MS, Verdana, Helvetica, sans-serif;
+  font-size: 13px;
+  color: #444444;
+}
+div#container{
+    background-color: #ffffff;
+    border: 2px solid #ffffff;
+}
+
+div#header{
+    width: 100%;    
+}
+
+#header{
+   background-color: #c3d9ff;
+}
+#header .siteName{
+   text-decoration: underline;
+   color: darkblue;
+   font-size: 27px;
+   padding: 20 0 0 20;
+}
+#header div.subName{ 
+   text-decoration: none;   
+   color: darkblue;
+   padding: 5 0 0 20;
+   font-size: 14px;
+   color: purple;
+}
+div#leftcol{
+   padding-top: 10px;
+   float: left;
+   width: 180px;
+   margin-bottom: 20px;
+}
+div#main{
+   margin: 15px 10px 15px 20px;
+   float: left;
+   width: 745px;
+}
+div#footer{
+    padding-left: 10px;
+    clear: both;
+    line-height: 50px;
+    font-size: 11px;
+    text-align: center;
+    height: 50px;
+    background-color: #c3d9ff;
+}
+
+#content{
+    padding: 10 10 10 20;
+}
+div.searchBlock{
+   border: 1px solid eeeeff;
+   background-color: eeeeff;
+   padding: 2px;
+   text-align: right;
+}
+div.searchBlock b{
+    font-size: 12px;
+	color: darkblue;
+}
+div.searchBlock i{
+    font-size: 12px;
+	color: #aaaaaa;
+	font-weight: bold;
+}
+div.searchBlock span.keywords{
+   float: left;
+   font-weight: bold;
+   font-size: 13px;
+   padding: 5px;
+   color: #666666;
+}
+
+.listTitle{
+    
+}
+.blockTitle{
+   margin: 10 0 5 0;
+   padding: 2 2 2 5;
+   color: #eeeeee;
+   font-size: 15px;
+   display: block;
+   background: #6a8696;
+}
+table.block div.title{
+    margin: 2 0 10 0;
+    font-weight: bold;
+}
+.block div.title a{
+   font-size: 11px;
+}
+.block div.text{
+    color: #666666;
+	font-size: 11px;
+	line-height: 1.5em;
+}
+.block div.text b{
+    font-size: 10px;
+}
+.block div.actions{
+    font-size: 10px;
+	color: #aaaaaa;
+	text-align: right;
+}
+.block div.actions a{
+    font-size: 10px;
+}
+.block td{
+   padding: 4px;
+   border: 1px solid #cccccc;
+   color: #666666;
+   font-size: 12px;
+   vertical-align: top;
+   background-color: beige;
+}
+table.list td{
+   background-color: #eeeeff;
+}
+table.list div.text{
+    text-align: justify;
+	color: 666666;
+}
+form fieldset{
+   border: 1px solid #c3d9ff;
+   margin-bottom: 15px;
+   PADDING: 20PX;
+   width: 450px;
+}
+form fieldset dt{
+ /* font-weight: bold;*/
+}
+form fieldset dd{
+  padding:2px;
+}
+form .required{
+  color: red;
+}
+form ul.errors{
+  color: red;
+}
+textarea {
+  height: 60px;
+}
+.bold{
+   font-weight: bold;
+}
+.alert{
+
+   background: #eeeeff;
+   border: 1px solid red;
+   margin: 10 0 10 0;
+   display: block;
+   padding: 10px;
+}
+.alert li{
+    font-weight: bold;
+	font-size: 11px;  
+    list-style: none;
+	color: red;
+}
+.pageSubTitle{
+   color: #CC0000;
+   font-size: 16px;
+   text-decoration: none;
+   margin-bottom: 15px;
+   text-transform: uppercase;
+}
+.table th{
+   font-weight: bold;
+   background-color: #eeeeee;
+   color: darkblue;
+}
+.table td .text{
+   width: 99%;
+   height: 22px;
+}
+a{
+   color: #009BEF;
+}
+a:hover{
+   color: #CC0000;
+   text-decoration: none;
+}
+.pager{
+   margin: 25px 0px 25px 0px;
+}
+.tinyText{
+   font-size: 11px;
+   color:#666666;
+}
+.pager .link{
+   background-color: #eeeeee;
+   padding: 2px;
+   color: #009BEF;
+   margin-right: 5px;
+   border: 1px solid #009BEF;
+   text-decoration: none;
+   font-size: 14px;
+}
+.pager a:hover{
+   color: #666666;
+   background-color: #ffffff;
+   border: 1px solid #dddddd;
+}
+.pager span.disabled{
+   color: #aaa;
+   background-color: #eee;
+   border: 1px solid #ddd;
+}
+.pager span.current{
+   color: #CC0000;
+   background-color: #ffffff;
+   border: 1px solid #dddddd;
+}
+  .pager span.text{
+   color: #aaaaaa;
+   font-size: 15px;
+}
+.pager span.text b{
+ font-style: italic;
+}
+.content, .content p, .content li{
+   line-height: 1.4em;
+   padding: 0px;  
+   font-family: Trebuchet MS, Verdana, Helvetica, sans-serif;
+   text-align: justify;
+}
+.container{
+   /*border: 1px solid darkblue;*/
+}
+.container div.list{
+   
+   background-color: #eeeeee;
+   margin-bottom: 1px;
+   border: 1px solid #aaa;
+   height: 18px;
+   padding: 2px; 
+}
+a.divlink{
+  text-decoration: none;
+  color: darkblue;
+}
+a.divlink div:hover{
+   background-color: gold;
+}
+.container div.list li{
+   display: block;
+   float: left;  
+   color: darkblue; 
+   font-size: 12px;
+   padding: 0px; 
+   margin: 0px;
+   padding-right: 5px;
+   line-height: 1.6em;
+   cursor: hand;
+}
+.container div.list li.name{
+   width: 155px;
+}
+.container div.list li.subject{
+   width: 300px;
+}
+.container div.list li.sentdate{
+   width: 100px;
+}
+.container div.list li.checkbox{
+  width: 20px;
+}
+.inlink{
+  color: #bbb;
+}
+.inlink a{
+  text-decoration: none;
+}
+.inlink a:hover{
+  text-decoration: underline;
+}
+.indiv{padding: 3px;}
+div .imgTitle{
+  background-color: #dddddd;
+  text-transform: capitalized;
+  font-weight: bold;
+  font-size: 12px;
+  color: darkgreen;
+  padding: 2px;
+}
+
+.content table img{
+  border: 1px solid #004d84;
+}
+.pageTitle{
+	font-size: 22px;
+	color: #3186cf;
+	margin-bottom: 10px;
+	text-transform: capitalize;
+}
+table.excel th{
+    border: 1px solid #999999;
+    background-color: #dddddd;
+	padding: 4px;
+	text-align: center;
+	text-transform: capitalize;
+	font-size: 12px;
+	letter-spacing: 0.1em;
+	color: #444444;
+}
+table.excel td{
+   padding: 4px;
+   border: 1px solid #aaaaaa;
+   color: #666666;
+   font-size: 12px;
+   vertical-align: top;
+}
+table.excelOrdinary{
+   border: 1px solid #dddddd;
+   background-color: #eeeeee;
+}
+table.excelOrdinary th{
+   padding: 3;
+   text-align: left;
+   vertical-align: top;
+   color: #222222;
+}
+table.excelOrdinary td{
+   border: 0px;
+   padding: 0px;
+}
+#breadcrumbs{
+   padding-bottom: 20px;
+}
+.login{
+   border: 1px solid #cccccc;
+   background-color: #eeeeee;
+}
+.login th{
+   font-size: 12px;
+   background-color: #dddddd;
+   padding: 1px;
+}
+.login .title{
+  background-color: #c3d9ff;
+  padding: 2px;
+}
+div.subContent{
+	clear: both;
+}
+div.subContent div.subContentTitle, div.Panes_Tabs_panes  div.subContentTitle{
+   color: #cc0000;
+   font-size: 17px;
+   text-decoration: underline;
+   margin: 10 0 15 0;
+}
+
+
+.imgbg{
+	background: #eeeeee url(../images/imgbg.jpg); 
+	line-height: 32px; 
+	vertical-align: middle;
+}
+.tinyHeader{
+    font-size: 11px;
+	color: red;
+	font-weight: bold;
+	padding: 3px 0px;
+	text-decoration: underline;
+}

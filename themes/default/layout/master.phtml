@@ -1,0 +1,92 @@
+<?php
+	$menu = $master->buildBlock('navigation');
+	//comment the next line to use default style for the navigation, other in built styles are default and progenics
+	//$menu->setProperty('style','freedom');
+	$menu->build();
+	$baseUrl = $master->getBaseUrl();
+	$webUrl = $master->getWebUrl();
+	
+	$site = $master->getConf(true)->site;
+	$siteName = $site['title'];
+	$website = $site['website'];
+?>
+<html>
+    <head>
+	    <title><?php echo  ($content->siteTitle) ? $content->siteTitle : $master->siteTitle;?></title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="Rating" content="General" />
+		<meta name="Distribution" content="Global" />
+		<meta name="Revisit-After" content="3 Days" />
+		<meta name="Copyright" content="&copy; 2009 PHP Freedom Project" />
+        <meta name="generator" content="PHP Freedom Framework" />
+        <meta name="robots" content="noindex,nofollow" />        
+		<meta name="googlebot" content="noindex,nofollow" /> 
+		<meta name="keywords" content="php, best practices, samples, articles, news, community, knowledge, All Skill Levels, News, PHP5, PHP Freedom Framework, software, framework, Tomiwa Adefokun, Nigeria, Africa, Information Technology" />
+        <script>
+         var MENU_STYLE = '<?php echo  $menu->style?>'; 
+         var P2F_BASE_URL = '<?php echo  $baseUrl?>'; 
+         var P2F_WEB_URL = '<?php echo  $webUrl?>'; 
+		</script>		
+		
+		<link rel="stylesheet" href="<?php echo $webUrl;?>/themes/<?php echo $theme;?>/style/main.css" type="text/css">
+		<link rel="stylesheet" href="<?php echo $webUrl;?>/themes/<?php echo $theme;?>/style/widgets.css" type="text/css">
+       <link href="<?php echo $webUrl;?>/themes/<?php echo $theme;?>/style/navigation/<?php echo  $menu->style;?>.css"  rel="stylesheet" type="text/css">
+
+		
+         <?php
+			Display::getStyleSheets();
+		 ?>
+		 <?php
+			Display::getJavaScripts(true);
+		 ?>
+	</head>
+	<?php flush();?>
+	<body>
+        <table width="960px" align="center" cellpadding="0" cellspacing="0">
+        <td>
+        <!-- container -->
+        <div id="container">
+            <!-- header -->
+            <div id="header">
+                <?php include_once(P2F_WEB_DIR . '/themes/'.$theme.'/layout/header.phtml');?>
+            </div>
+
+            <!-- leftcol -->
+            <div id="leftcol">
+                <?php include_once(P2F_WEB_DIR . '/themes/'.$theme.'/layout/leftcol.phtml');?>
+            </div>    
+            <!-- content -->
+            <div id="main">
+                <div id="breadcrumbs">
+                    <?php $ts = $master->createWidget('ThemeSelector'); 
+                          $ts->setProperty('currentTheme',$master->getTheme());
+                          $ts->build();
+                          $ts->display();
+                    ?>
+                    <span id="breadcrumbs-links"><?php echo  $menu->getBreadcrumbs();?></span>
+                </div>
+                <?php     $alert = $master->createWidget('ProcessAlert'); 
+                          $alert->addContents($master->getAlert());
+                          $alert->build();
+                          $alert->display();
+                ?>
+                <div id="mainblock">
+                    <?php $content->displayContent();?>
+                </div>
+            </div>	
+                <!-- footer -->
+            <div id="footer">
+                <?php include_once(P2F_WEB_DIR . '/themes/'.$theme.'/layout/footer.phtml');?>
+            </div>
+        </div>
+        </div>
+        </td>
+        </table>
+	</body>
+	    <?php
+			Display::getJavaScripts();
+		?>
+		<script src="<?php echo  $master->getwebUrl();?>/freedom/html/javascript/main.js"></script>
+		<script src="<?php echo  $master->getwebUrl();?>/freedom/html/javascript/widgets.js"></script>
+		<script src="<?php echo  $master->getwebUrl();?>/freedom/html/javascript/datetimepicker.js"></script>	
+</html>
